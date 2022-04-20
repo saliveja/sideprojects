@@ -10,12 +10,19 @@ url = 'https://cryptohayes.medium.com/energy-cancelled-e9f9e53a50cd'
 req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 
 filename = 'beautiful.txt'
-with open(filename, 'w') as f:
+with open(filename, 'a') as f:
     with urlopen(req) as response:
         html = response.read()
         soup = BeautifulSoup(html, 'html.parser')
+        #  is where a string of commands – usually a program –
+        #  is separated into more easily processed components,
+        #  which are analyzed for correct syntax and
+        #  then attached to tags that define each component.
         extracted_text = soup.get_text()
-        f.write(extracted_text)
+        # The get_text() method returns the text inside the Beautiful Soup
+        # or Tag object as a single Unicode string.
+        pretty_text = soup.prettify()
+        f.write(pretty_text)
 
 # Parse with beautiful soup
 

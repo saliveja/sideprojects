@@ -136,6 +136,36 @@ x = statistics.mean(data1)
 print(f"Mean is :, {x}")
 -  output: mean is : 4.428571428571429
 
+## title
+- soup.title.string
+Beautiful soup returns a string
+
+## returns a string of the Title
+
+- soup.body.b
+
+## zooming in on a certain part of the parse tree
+
+for link in soup.find_all('a'):
+    print(link.get('href'))
+- extracting all the URLs found within a page’s <a> tags.
+
+soup.get_text()
+- extracting all text from a page
+
+
+## parsing
+BeautifulSoup(markup, "html.parser")from bs4 import BeautifulSoup
+
+with open("index.html") as fp:
+    soup = BeautifulSoup(fp, 'html.parser')
+
+soup = BeautifulSoup("<html>a web page</html>", 'html.parser')
+- python parser
+
+
+
+
 
 
 
