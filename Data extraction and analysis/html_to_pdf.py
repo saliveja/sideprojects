@@ -1,5 +1,6 @@
 from wkhtmltopdf import WKHtmlToPdf
 import datetime
+import feedparser
 
 sources = {'Hayes': 'https://cryptohayes.medium.com/',
            'Su Zhu & Hasu': 'https://uncommoncore.co/',
@@ -13,17 +14,32 @@ sources = {'Hayes': 'https://cryptohayes.medium.com/',
            'Metagovernance project': 'https://metagov.org/',
            'Bitmex': 'https://blog.bitmex.com/?lang=en_us',
 }
-print(sources)
 
-for key, value in sources.items():
-    wkhtmltopdf = WKHtmlToPdf(url = value, output_file= f"/home/sage/Desktop/Python"
-                                                  f"/sideprojects/{key}.pdf",)
-    for info in value:
-        today = datetime.date.today()
-        past_week = today + datetime.timedelta(days=-7)
-        wkhtmltopdf.render()
+for value in sources.items():
+    rss = feedparser.parse("https://cryptohayes.medium.com/.rss")
+    entry = rss['lastBuildDate']
+    print(entry)
+    # today = datetime.date.today()
+    # past_week = today + datetime.timedelta(days=-7)
+    # if entry == past_week:
+    #     wkhtmltopdf = WKHtmlToPdf(url=value,output_file=f"/home/sage/Desktop"
+    #                                                     f"/Python/sideprojects"
+    #                                                     f"/{key}.pdf",)
+    #     wkhtmltopdf.render()
+    #
+
+# print(entry.keys())
+
+# for key, value in sources.items():
+#     wkhtmltopdf = WKHtmlToPdf(url = value, output_file= f"/home/sage/Desktop/Python"
+#                                                   f"/sideprojects/{key}.pdf",
+#     today = datetime.date.today()
+#     past_week = today + datetime.timedelta(days=-7)
+#     if lastBuildDate == past_week:
+#         wkhtmltopdf.render()
 
 
-import bs4
-soup = bs4.BeautifulSoup(page.content, 'lxml')
-table = soup.find(name='table', attrs={'id':'tableID'})
+# import bs4
+# soup = bs4.BeautifulSoup(page.content, 'lxml')
+# table = soup.find(name='table', attrs={'id':'tableID'})
+
