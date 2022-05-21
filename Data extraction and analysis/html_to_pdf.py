@@ -4,7 +4,9 @@ from datetime import date, datetime, timedelta
 import feedparser
 import requests
 import pdfkit
-
+from dateutil.parser import parse
+import time
+import calendar
 
 url_feed = {'hayes':'https://cryptohayes.medium.com/feed',
            'uncommoncore':'https://uncommoncore.co/feed',}
@@ -23,15 +25,17 @@ url_feed = {'hayes':'https://cryptohayes.medium.com/feed',
 today_date = date.today()
 # print(today_date)
 # printing the date of today
+month = timedelta(days=30)
 
-seven = today_date + timedelta(days=-7)
-# displaying the date seven days before today's date
-six = today_date + timedelta(days=-6)
-five = today_date + timedelta(days=-5)
-four = today_date + timedelta(days=-4)
-three = today_date + timedelta(days=-3)
-two = today_date + timedelta(days=-2)
-one = today_date + timedelta(days=-1)
+#
+# seven = today_date + timedelta(days=-7)
+# # displaying the date seven days before today's date
+# six = today_date + timedelta(days=-6)
+# five = today_date + timedelta(days=-5)
+# four = today_date + timedelta(days=-4)
+# three = today_date + timedelta(days=-3)
+# two = today_date + timedelta(days=-2)
+# one = today_date + timedelta(days=-1)
 
 url_hayes = 'https://cryptohayes.medium.com/feed'
 links = {}
@@ -39,19 +43,32 @@ links = {}
 feed = feedparser.parse(url_hayes)
 # print(feed.entries)
 
+numDays = 30
+date_list = []
+date_rss = {}
+
+for x in range(numDays):
+    date_list.append(today_date - timedelta(days = x))
+    # appending all past 30 days to date_list
+
 for entry in feed.entries:
-    if entry.published == today_date or one or two or three or four \
-                        or five or six or seven:
         name = entry.title
         links[name] = entry.link
-    else:
-            print("There are no new articles published.")
-
-
+        # key is name, value is the value in entry.link
+        print(entry.published)
+        date_rss[name] = date.fromtimestamp(calendar.timegm(time.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %Z")))
+# print(links)
+print(date_rss)
+print(date_list)
 for name, link in links.items():
-    print("Creating PDF ", name)
-    pdfkit.from_url(link, f"{name}.pdf")
-    print(f"Created PDF {name} successfully!")
+    if date_rss[name] < today_date - timedelta(days=30):
+        print(f'{name} published {date_rss[name]}, checking < {today_date - timedelta(days=30)}')
+        print(f"Creating PDF , {name}")
+        pdfkit.from_url(link, f"{name}.pdf")
+        print(f"Created PDF {name} successfully!")
+    else:
+        print(f"{date_rss}")
+
 
 # url_ucc = 'https://uncommoncore.co/blog/feed'
 #
