@@ -41,22 +41,18 @@ two = today_date - timedelta(days=2)
 one = today_date - timedelta(days=1)
 
 url_hayes = 'https://cryptohayes.medium.com/feed'
+# rss feed
 
 feed = feedparser.parse(url_hayes)
-# print(feed.entries)
+# processing data with feedparser
 
 links = {}
 date_rss = {}
-#
-# for x in range(numDays):
-#     date_list.append(today_date - timedelta(days = x))
-#     # appending all past 30 days to date_list
 
 for entry in feed.entries:
         name = entry.title
         links[name] = entry.link
         # key is name, value is the value in entry.link
-        # print(entry.published)
         date_rss[name] = date.fromtimestamp\
             (calendar.timegm(time.strptime(entry.published[:-13],
                                            "%a, %d %b %Y")))
@@ -64,7 +60,7 @@ for entry in feed.entries:
 
 # for each_value in date_rss.values():
 #     print(each_value)
-# print(links)
+print(links)
 # print(date_rss)
 # print(today_date)
 
@@ -78,12 +74,12 @@ for name, link in links.items():
                 date_rss[name] == ten or date_rss[name] == eleven or \
                 date_rss[name] == twelve or date_rss[name] == thirteen or \
                 date_rss[name] == fourteen or date_rss[name] == fifteen:
-        print(f'{name} published {date_rss[name]}, checking dates: '
-              f'{one}, {two}, {three}, {four}, {five}, {six}, {seven}, '
-              f'{eight}, {nine}, {ten}, {eleven}, {twelve}, {thirteen}, '
-              f'{fourteen}, {fifteen}')
+        # print(f'{name} published {date_rss[name]}, checking dates: '
+        #       f'{one}, {two}, {three}, {four}, {five}, {six}, {seven}, '
+        #       f'{eight}, {nine}, {ten}, {eleven}, {twelve}, {thirteen}, '
+        #       f'{fourteen}, {fifteen}')
         print(f"Creating PDF, {name}")
-        pdfkit.from_url(f"{link}, {name}.pdf")
+        pdfkit.from_url(link, f"{name}.pdf")
         print(f"Created PDF {name} successfully!")
     else:
         print(f'There is no new publications.')
