@@ -41,13 +41,11 @@ two = today_date - timedelta(days=2)
 one = today_date - timedelta(days=1)
 
 url_hayes = 'https://cryptohayes.medium.com/feed'
-links = {}
 
 feed = feedparser.parse(url_hayes)
 # print(feed.entries)
 
-numDays = 30
-date_list = []
+links = {}
 date_rss = {}
 #
 # for x in range(numDays):
@@ -59,28 +57,36 @@ for entry in feed.entries:
         links[name] = entry.link
         # key is name, value is the value in entry.link
         # print(entry.published)
-        date_rss[name] = date.fromtimestamp(calendar.timegm(time.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %Z")))
-print(links)
-print(date_rss)
+        date_rss[name] = date.fromtimestamp\
+            (calendar.timegm(time.strptime(entry.published[:-13],
+                                           "%a, %d %b %Y")))
+        # the -13 is removing the GMT part of the date
+
+# for each_value in date_rss.values():
+#     print(each_value)
+# print(links)
+# print(date_rss)
 # print(today_date)
 
-dates = today_date - timedelta(days=30)
-print(dates)
-#
-for name, date in date_rss.items():
-    if date_rss[name] == today_date or one or two or three or four or \
-            five or six or seven or eight or nine or ten or eleven or twelve \
-            or thirteen or fourteen or fifteen:
-        print(f'{name} published {date_rss[name]}, checking < {today_date}, '
-              f'{one}, {two}, {three}, {four}, {five}, {six}, {seven}, {eight},'
-              f'{nine}, {ten}, {eleven}, {twelve}, {thirteen}, {fourteen}, '
-              f'{fifteen}')
-        print(f"Creating PDF , {name}")
-        pdfkit.from_url(links[name], f"{name}.pdf")
+
+for name, link in links.items():
+    if date_rss[name] == today_date or date_rss[name] == one or \
+                date_rss[name] == two or date_rss[name] == three or \
+                date_rss[name] == four or date_rss[name] == five or \
+                date_rss[name] == six or date_rss[name] == seven or \
+                date_rss[name] == eight or date_rss[name] == nine or \
+                date_rss[name] == ten or date_rss[name] == eleven or \
+                date_rss[name] == twelve or date_rss[name] == thirteen or \
+                date_rss[name] == fourteen or date_rss[name] == fifteen:
+        print(f'{name} published {date_rss[name]}, checking dates: '
+              f'{one}, {two}, {three}, {four}, {five}, {six}, {seven}, '
+              f'{eight}, {nine}, {ten}, {eleven}, {twelve}, {thirteen}, '
+              f'{fourteen}, {fifteen}')
+        print(f"Creating PDF, {name}")
+        pdfkit.from_url(f"{link}, {name}.pdf")
         print(f"Created PDF {name} successfully!")
     else:
-        print(f"{date_rss}")
-
+        print(f'There is no new publications.')
 
 # url_ucc = 'https://uncommoncore.co/blog/feed'
 #
