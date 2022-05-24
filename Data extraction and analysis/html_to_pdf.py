@@ -1,14 +1,12 @@
-import requests, bs4
-from urllib.request import Request, urlopen
 from datetime import date, datetime, timedelta
 import feedparser
-import requests
 import pdfkit
 import time
 import calendar
 
-url_feed = {'hayes':'https://cryptohayes.medium.com/feed',
-           'uncommoncore':'https://uncommoncore.co/feed',}
+
+# url_feed = {'hayes':'https://cryptohayes.medium.com/feed',
+#            'uncommoncore':'https://uncommoncore.co/feed',}
 #            'Our network': 'https://ournetwork.substack.com/',
 #            'Messari': 'https://messari.io/research',
 #            '0xparc': 'https://0xparc.org/blog',
@@ -19,6 +17,7 @@ url_feed = {'hayes':'https://cryptohayes.medium.com/feed',
 #            'Metagovernance project': 'https://metagov.org/',
 #            'Bitmex': 'https://blog.bitmex.com/?lang=en_us',
 # }
+
 
 today_date = date.today()
 # printing the date of today
@@ -47,23 +46,19 @@ feed = feedparser.parse(url_hayes)
 # processing data with feedparser
 
 links = {}
+# dictionary to saves the name and links from the url
 date_rss = {}
+# dictionary with the name and the date of publication of the articles
 
 for entry in feed.entries:
         name = entry.title
         links[name] = entry.link
-        # key is name, value is the value in entry.link
+        # key == name, value is the value in entry.link
+        # this means the web address
         date_rss[name] = date.fromtimestamp\
             (calendar.timegm(time.strptime(entry.published[:-13],
                                            "%a, %d %b %Y")))
         # the -13 is removing the GMT part of the date
-
-# for each_value in date_rss.values():
-#     print(each_value)
-print(links)
-# print(date_rss)
-# print(today_date)
-
 
 for name, link in links.items():
     if date_rss[name] == today_date or date_rss[name] == one or \
@@ -74,36 +69,12 @@ for name, link in links.items():
                 date_rss[name] == ten or date_rss[name] == eleven or \
                 date_rss[name] == twelve or date_rss[name] == thirteen or \
                 date_rss[name] == fourteen or date_rss[name] == fifteen:
-        # print(f'{name} published {date_rss[name]}, checking dates: '
-        #       f'{one}, {two}, {three}, {four}, {five}, {six}, {seven}, '
-        #       f'{eight}, {nine}, {ten}, {eleven}, {twelve}, {thirteen}, '
-        #       f'{fourteen}, {fifteen}')
+        # comparing with every date from todays date and - 15 days
         print(f"Creating PDF, {name}")
         pdfkit.from_url(link, f"{name}.pdf")
+        # converting html to pdf and downloading
         print(f"Created PDF {name} successfully!")
     else:
         print(f'There is no new publications.')
 
-# url_ucc = 'https://uncommoncore.co/blog/feed'
-#
-# link_list_ucc = []
-#
-# feed = feedparser.parse(url_ucc)
-# for entry in feed.entries:
-#     # print(entry.published)
-#     # print(entry.link)
-#     link_list_ucc.append(entry.link)
-#
-#     documentUcc = link_list_ucc[0]
-#     # index 0 is the latest article
-#     print(documentUcc)
-#
-#     for dates in entry.published
-#         print(dates)
-#         if dates == today_date or one or two or three or four \
-#                 or five or six or seven:
-#             name = entry.title
-#             # read_text = entry.content
-#             pdfkit.from_url(documentUcc, f"{name}.pdf")
-#         else:
-#             print("There are no new articles published.")
+
