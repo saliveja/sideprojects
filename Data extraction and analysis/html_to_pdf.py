@@ -4,21 +4,6 @@ import pdfkit
 import time
 import calendar
 
-
-# url_feed = {'hayes':'https://cryptohayes.medium.com/feed',
-#            'uncommoncore':'https://uncommoncore.co/feed',}
-#            'Our network': 'https://ournetwork.substack.com/',
-#            'Messari': 'https://messari.io/research',
-#            '0xparc': 'https://0xparc.org/blog',
-#            'Mycelium': 'https://mycelium.xyz/research',
-#            'Paradigm': 'https://www.paradigm.xyz/writing',
-#            'Credit Suisse': 'https://www.credit-suisse.com/marketinsights'
-#                             '/nl/en.html',
-#            'Metagovernance project': 'https://metagov.org/',
-#            'Bitmex': 'https://blog.bitmex.com/?lang=en_us',
-# }
-
-
 today_date = date.today()
 # printing the date of today
 
