@@ -13,6 +13,6 @@ with urlopen(req) as response:
 
 
 # Parse with beautiful soup
-soup = BeautifulSoup(html, 'html.parser')
+soup = BeOautifulSoup(html, 'html.parser')
 
 print(soup.get_text())

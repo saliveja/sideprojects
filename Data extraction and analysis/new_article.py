@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup as bs
 import requests
 from urllib.request import Request, urlopen
-import fontstyle
 
 url = 'https://cryptohayes.medium.com/energy-cancelled-e9f9e53a50cd'
 
