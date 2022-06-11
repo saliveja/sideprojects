@@ -9,42 +9,40 @@ import requests, bs4
 from urllib.request import Request, urlopen
 
 def wrongALot():
-    """Downloading the latest article from Wrong a lot."""
+    """Downloading the latest article from 'Wrong a lot'
+    and "Knower's substack"."""
+
     links = []
+    urls = {
+        "Knower's substack": 'https://theknower.substack.com/archive',
+        "Wrong a lot": "https://wrongalot.substack.com/archive",
+        "Kyla": "https://kyla.substack.com/archive",
+           }
 
-    res = requests.get("https://wrongalot.substack.com/archive",
-                       headers={'User-Agent': 'Mozilla/5.0'})
-    res.raise_for_status()
-    soup = bs4.BeautifulSoup(res.text, 'html.parser')
-    # dateElem = soup.find_all("div", class_="post-meta-item post-date")
-    #
-    # # the date of each article
-    # for date in dateElem:
-    #     print(date['title'])
-    #     name = f'Wrong a lot' + date['title']
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
 
-    # linkElem = soup.find_all("div", class_="post-preview-content")
+        for article in soup.find_all('a'):
+            links.append(article.get('href'))
+        address = links[9]
+        print(address)
 
-    for link in soup.find_all('a'):
-        links.append(link.get('href'))
-
-    url = links[9]
-
-    print(f"Creating PDF")
-    pdfkit.from_url(url, 'wrongALot.pdf')
-    # converting html to pdf and downloading
-    print(f"Created PDF successfully!")
+        print(f"Creating PDF")
+        pdfkit.from_url(address, f'{key}.pdf')
+        # converting html to pdf and downloading
+        print(f"Created PDF successfully!")
+        links.clear()
 
 def ansem():
-    """Downloading the latest Ansem and Cobie newsletter."""
+    """Downloading the latest 'Ansem' and 'Cobie' newsletter."""
 
     links = []
     urls = {
         'Cobie': 'https://cobie.substack.com/archive',
         'Ansem': 'https://blknoiz06.substack.com/archive',
-    }
-
-    # linkElem = soup.find_all("div", class_="post-preview-content")
+            }
 
     for key, value in urls.items():
         res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
@@ -122,21 +120,42 @@ def hayes():
             print(f'There is no new publications.')
 
 def onchainWizard():
-    """Downloading the latest Onchain Wizard newsletter."""
+    """Downloading the latest 'Onchain Wizard' newsletter."""
 
     links = []
     url = {'Onchain Wizard': 'https://onchainwizard.substack.com/archive'}
 
-    # linkElem = soup.find_all("div", class_="post-preview-content")
-    res = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
-    res.raise_for_status()
-    soup = bs4.BeautifulSoup(res.text, 'html.parser')
-
-    for article in soup.find_all('a'):
-        links.append(article.get('href'))
-    address = links[8]
-    
     for key, value in url.items():
+        res = requests.get(url[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        for article in soup.find_all('a'):
+            links.append(article.get('href'))
+        address = links[8]
+
+        print(f"Creating PDF")
+        pdfkit.from_url(address, f'{key}.pdf')
+        # converting html to pdf and downloading
+        print(f"Created PDF successfully!")
+        links.clear()
+
+def noSleep():
+    """Downloading 'No sleep' newsletter"""
+
+    links = []
+    url = {'No Sleep': 'https://nosleep.substack.com/archive'}
+
+    for key, value in url.items():
+        res = requests.get(url[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        for article in soup.find_all('a'):
+            links.append(article.get('href'))
+
+        address = links[6]
+
         print(f"Creating PDF")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
@@ -145,8 +164,14 @@ def onchainWizard():
 
 
 
+
+
+
+
 # wrongALot()
 # ansem()
 # hayes()
 # cobie()
-onchainWizard()
+# onchainWizard()
+# kyla()
+noSleep()
