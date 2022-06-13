@@ -1,12 +1,7 @@
-from datetime import date, datetime, timedelta
 import feedparser
 import pdfkit
-import time
-import calendar
-from selenium import webdriver
-from selenium.webdriver.common.by import By
 import requests, bs4
-from urllib.request import Request, urlopen
+
 
 def wrongALotKnower():
     """Downloading the latest article from 'Wrong a lot'
@@ -28,7 +23,7 @@ def wrongALotKnower():
             links.append(article.get('href'))
         address = links[9]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address: {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
@@ -52,7 +47,7 @@ def ansemCobie():
             links.append(article.get('href'))
         address = links[5]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address: {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
@@ -103,7 +98,7 @@ def onchainWizard():
             links.append(article.get('href'))
         address = links[8]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address: {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
@@ -127,7 +122,7 @@ def noSleepKyle():
 
         address = links[6]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address: {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
@@ -149,7 +144,7 @@ def ape():
 
         address = links[10]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address: {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
@@ -170,7 +165,7 @@ def nat():
 
         address = links[15]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
@@ -194,7 +189,7 @@ def rainMacro():
 
         address = links[10]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address: {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
@@ -216,7 +211,7 @@ def notBoring():
 
         address = links[19]
 
-        print(f"Creating PDF")
+        print(f"Creating PDF from address: {address}")
         pdfkit.from_url(address, f'{key}.pdf')
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
