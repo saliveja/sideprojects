@@ -8,6 +8,9 @@ import string
 from spacy.lang.en import English
 from heapq import nlargest
 from spacy.language import Language
+import feedparser
+import pdfkit
+import requests, bs4
 
 
 punctuations = string.punctuation
@@ -51,9 +54,42 @@ def generate_summary(rank, text):
     summary = nlargest(rank, importance, key=importance.get)
     return summary
 
+def knower():
+    links = []
+    urls = {
+                "Knower's substack": 'https://theknower.substack.com/archive',
+                # "Wrong a lot": "https://wrongalot.substack.com/archive",
+                # "Kyla": "https://kyla.substack.com/archive",
+                   }
+
+    for key, value in urls.items():
+        # print(key)
+        # print(value)
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        for article in soup.find_all('a'):
+            links.append(article.get('href'))
+
+        address = links[9]
+
+        res1 = requests.get(address, headers={'User-Agent': 'Mozilla/5.0'})
+        res1.raise_for_status()
+        soup1 = bs4.BeautifulSoup(res1.text, 'html.parser')
+        for text in soup1.findAll('p'):
+            text_str = text.getText()
+            # print(text_str)
 
 
+            file = 'summary.txt'
+            with open(file, 'a') as f:
+                gen = generate_summary(20, text_str)
 
+            print(gen)
+            #     f.write(gen_str)
+            # # print(text_str)
+            # links.clear()
 
-
+knower()
 

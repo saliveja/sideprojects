@@ -10,13 +10,25 @@
 import requests, os, bs4
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import time
 
 driver = webdriver.Firefox()
-driver.get('https://uncommoncore.co/blog')
+driver.get('https://events.coindesk.com/consensus2022/agenda/session/902857')
+time.sleep(5)
 tag_list = []
-linkElem = driver.find_elements(By.CLASS_NAME, 'elementor-post_title')
+linkElem = driver.find_element(By.CLASS_NAME, 'cta-button cta-button-large font-size-13 custom-color color-1-background margin-top-medium color-1-hover-opacity')
 tag_list.append(linkElem)
-print(linkElem)
+print(tag_list)
+
+#linkElem = browser.find_element(By.ID, 'rcmloginsubmit')
+#
+# username_field = browser.find_element(By.ID, 'rcmloginuser')
+# username_field.send_keys("enchanted")
+# #
+# password_field = browser.find_element(By.ID, 'rcmloginpwd')
+# password_field.send_keys("&P\{34KbY:Nd3V,2aJs^")
+# #
+# password_field.submit()
 
 
 
