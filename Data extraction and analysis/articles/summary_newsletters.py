@@ -1,54 +1,55 @@
-import feedparser
-import pdfkit
-import requests, bs4
-import summarize
-import pprint
-from newspaper import Article
-import spacy
-import sys
-# !{sys.executable} -m spacy download en
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 from string import punctuation
 import string
+from spacy.lang.en.stop_words import STOP_WORDS
 from spacy.lang.en import English
 from heapq import nlargest
 from spacy.language import Language
+import feedparser
+import pdfkit
+import requests, bs4
 
 punctuations = string.punctuation
 nlp = English()
-nlp.add_pipe('sentencizer')
+nlp.add_pipe('sentencizer') # updated
 parser = English()
-# spacy.load('en_core_web_sm')
 
-def summarize(text, per):
-    doc= nlp(text)
-    tokens=[token.text for token in doc]
-    word_frequencies={}
-    for word in doc:
-        if word.text.lower() not in list(STOP_WORDS):
-            if word.text.lower() not in punctuation:
-                if word.text not in word_frequencies.keys():
-                    word_frequencies[word.text] = 1
+
+def pre_process(document):
+    clean_tokens = [token.lemma_.lower().strip() for token in document]
+    clean_tokens = [token for token in clean_tokens if
+                    token not in STOP_WORDS and token not in punctuations]
+    tokens = [token.text for token in document]
+    lower_case_tokens = list(map(str.lower, tokens))
+
+    return lower_case_tokens
+
+def generate_numbers_vector(tokens):
+    frequency = [tokens.count(token) for token in tokens]
+    token_dict = dict(list(zip(tokens,frequency)))
+    maximum_frequency=sorted(token_dict.values())[-1]
+    normalised_dict = {token_key:token_dict[token_key]/maximum_frequency for token_key in token_dict.keys()}
+    return normalised_dict
+
+def sentences_importance(text, normalised_dict):
+    importance ={}
+    for sentence in nlp(text).sents:
+        for token in sentence:
+            target_token = token.text.lower()
+            if target_token in normalised_dict.keys():
+                if sentence in importance.keys():
+                    importance[sentence]+=normalised_dict[target_token]
                 else:
-                    word_frequencies[word.text] += 1
-    max_frequency=max(word_frequencies.values())
-    for word in word_frequencies.keys():
-        word_frequencies[word]=word_frequencies[word]/max_frequency
-    sentence_tokens= [sent for sent in doc.sents]
-    sentence_scores = {}
-    for sent in sentence_tokens:
-        for word in sent:
-            if word.text.lower() in word_frequencies.keys():
-                if sent not in sentence_scores.keys():
-                    sentence_scores[sent]=word_frequencies[word.text.lower()]
-                else:
-                    sentence_scores[sent]+=word_frequencies[word.text.lower()]
-    select_length=int(len(sentence_tokens)*per)
-    summary=nlargest(select_length, sentence_scores,key=sentence_scores.get)
-    final_summary=[word.text for word in summary]
-    summary=''.join(final_summary)
+                    importance[sentence]=normalised_dict[target_token]
+    return importance
+
+def generate_summary(rank, text):
+    target_document = parser(text)
+    importance = sentences_importance(text, generate_numbers_vector(pre_process(target_document)))
+    summary = nlargest(rank, importance, key=importance.get)
     return summary
+
 
 def knower():
     links = []
@@ -59,31 +60,57 @@ def knower():
                    }
 
     for key, value in urls.items():
-        # print(key)
-        # print(value)
         res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
         res.raise_for_status()
         soup = bs4.BeautifulSoup(res.text, 'html.parser')
 
         for article in soup.find_all('a'):
-            links.append(article.get('href'))
+            link = article.get('href')
+            links.append(link)
+        # print(links)
 
-    address = links[9]
+    req1 = requests.get(links[9], headers={'User-Agent': 'Mozilla/5.0'})
+    soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
 
-    res1 = requests.get(address, headers={'User-Agent': 'Mozilla/5.0'})
-    res1.raise_for_status()
-    soup1 = bs4.BeautifulSoup(res1.text, 'html.parser')
-    text = soup1.find('p')
-    print(text.get_text())
-            #
-            # file = 'summary.txt'
-            # with open(file, 'a') as f:
-            #     gen = summarize(text_str, 0.5)
-            #
-            # print(gen)
-            #     f.write(gen_str)
-            # # print(text_str)
-            # links.clear()
+    for text in soup1.find_all('p'):
+        text_str = str(text.text)
 
+        article = 'article.txt'
+        with open(article, 'w') as f:
+            filedata = f.write(text_str)
+
+        with open(article, 'r+') as f:
+            filedata = f.read()
+            for lines in filedata:
+                p = soup1.find_all("li")
+                lines = p.text
+                filedata = file.write(lines.replace(lines, f"\n* {lines}")
 
 knower()
+
+file = 'article.txt'
+with open(file, 'r') as fx:
+    file_sum = 'summary.txt'
+    with open(file_sum, 'r+') as fs:
+        text_to_sum = fs.read()
+        gen = generate_summary(3, text_to_sum)
+        gen_str = str(gen)
+        fs.write(gen_str)
+
+
+
+
+
+# res1 = urllib.request.urlopen(links[9],
+#                              headers={'User-Agent': 'Mozilla/5.0'})
+# soup1 = bs4.BeautifulSoup(res1, 'html.parser')
+# # getting all the paragraphs
+# for para in soup1.find_all("p"):
+#     print(para.get_text())
+#
+# text_str = soup1.getText()
+# text_strip = text_str.strip()
+# text = soup1.find('p').text
+# # text_str = text.getText()
+# print(text)
+#

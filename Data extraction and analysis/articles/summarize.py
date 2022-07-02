@@ -54,42 +54,45 @@ def generate_summary(rank, text):
     summary = nlargest(rank, importance, key=importance.get)
     return summary
 
-def knower():
+def mediumArticles():
+    """Downloading the latest 'Scarpa', 'Hayes', 'Foo69', 'Godcomplex182',
+     'Cryptocreddy', '0xgodking' articles."""
+
+    urls = {'Scarpa': 'https://medium.com/@TraderScarpa/feed',
+            # 'Hayes': 'https://cryptohayes.medium.com/feed',
+            # 'Foo69': 'https://fooo69.medium.com/feed',
+            # 'Godcomplex182': 'https://medium.com/@godcomplex182/feed',
+            # 'Cryptocreddy': 'https://medium.com/@cryptocreddy/feed',
+            # '0xgodking': 'https://medium.com/@0xgodking/feed',
+            }
+
     links = []
-    urls = {
-                "Knower's substack": 'https://theknower.substack.com/archive',
-                # "Wrong a lot": "https://wrongalot.substack.com/archive",
-                # "Kyla": "https://kyla.substack.com/archive",
-                   }
+    names = []
 
     for key, value in urls.items():
-        # print(key)
-        # print(value)
-        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
-        res.raise_for_status()
-        soup = bs4.BeautifulSoup(res.text, 'html.parser')
-
-        for article in soup.find_all('a'):
-            links.append(article.get('href'))
-
-        address = links[9]
-
-        res1 = requests.get(address, headers={'User-Agent': 'Mozilla/5.0'})
+        feed = feedparser.parse(value)
+        for entry in feed.entries:
+            link = entry.link
+            name = entry.title
+            links.append(link)
+            names.append(name)
+    print(links)
+    for link in links:
+        res1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
         res1.raise_for_status()
         soup1 = bs4.BeautifulSoup(res1.text, 'html.parser')
-        for text in soup1.findAll('p'):
-            text_str = text.getText()
+
+        text_str = soup1.get_text()
+
+        file = 'summary.txt'
+        with open(file, 'a') as f:
+            gen = generate_summary(3, text_str)
+            gen_str = str(gen)
+            print(gen_str)
+            f.write(gen_str)
             # print(text_str)
+            links.clear()
+            names.clear()
 
-
-            file = 'summary.txt'
-            with open(file, 'a') as f:
-                gen = generate_summary(20, text_str)
-
-            print(gen)
-            #     f.write(gen_str)
-            # # print(text_str)
-            # links.clear()
-
-knower()
+mediumArticles()
 
