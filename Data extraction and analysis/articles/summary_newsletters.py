@@ -52,6 +52,11 @@ def generate_summary(rank, text):
 
 
 def knower():
+
+    article = 'article.txt'
+    with open(article, 'w') as f:
+        f.truncate()
+
     links = []
     urls = {
                 "Knower's substack": 'https://theknower.substack.com/archive',
@@ -67,35 +72,50 @@ def knower():
         for article in soup.find_all('a'):
             link = article.get('href')
             links.append(link)
-        # print(links)
 
     req1 = requests.get(links[9], headers={'User-Agent': 'Mozilla/5.0'})
     soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+    html = soup1.find_all('p')
 
-    for text in soup1.find_all('p'):
-        text_str = str(text.text)
-
+    for text in html:
         article = 'article.txt'
-        with open(article, 'w') as f:
-            filedata = f.write(text_str)
+        with open(article, 'a+') as f:
+            text_str = str(text.text)
+            f.write(text_str)
 
-        with open(article, 'r+') as f:
-            filedata = f.read()
-            for lines in filedata:
-                p = soup1.find_all("li")
-                lines = p.text
-                filedata = file.write(lines.replace(lines, f"\n* {lines}")
+    file = 'article.txt'
+    with open(file, 'r+') as fx:
+        file_sum = 'summary.txt'
+        text_to_sum = fx.read()
+        with open(file_sum, 'a+') as fs:
+            gen = generate_summary(3, text_to_sum)
+            gen_str = str(gen)
+            fs.write(gen_str)
+
+    # article = 'article.txt'
+    # with open(article, 'r+') as f:
+    #     f.read()
+    #     tags = soup1.find_all("li")
+    #     for text in f:
+    #         for content in tags:
+    #             lines = content.text
+    #             f.write(text.replace(lines, f"\n* {lines}"))
+    # links.clear()
+
+
 
 knower()
 
-file = 'article.txt'
-with open(file, 'r') as fx:
-    file_sum = 'summary.txt'
-    with open(file_sum, 'r+') as fs:
-        text_to_sum = fs.read()
-        gen = generate_summary(3, text_to_sum)
-        gen_str = str(gen)
-        fs.write(gen_str)
+
+# file = 'article.txt'
+# with open(file, 'r') as fx:
+#     file_sum = 'summary.txt'
+#     text_to_sum = fx.read()
+#     with open(file_sum, 'a') as fs:
+#         gen = generate_summary(3, text_to_sum)
+#         gen_str = str(gen)
+#         fs.write(gen_str)
+
 
 
 
