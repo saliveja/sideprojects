@@ -40,7 +40,7 @@ def summarize(text, per):
     select_length=int(len(sentence_tokens)*per)
     summary=nlargest(select_length, sentence_scores,key=sentence_scores.get)
     final_summary=[word.text for word in summary]
-    summary=''.join(final_summary)
+    summary=' '.join(final_summary)
     return summary
 
 
@@ -53,8 +53,8 @@ def save_article_to_file():
     links = []
     urls = {
                 "Knower's substack": 'https://theknower.substack.com/archive',
-                # "Wrong a lot": "https://wrongalot.substack.com/archive",
-                # "Kyla": "https://kyla.substack.com/archive",
+                "Wrong a lot": "https://wrongalot.substack.com/archive",
+                "Kyla": "https://kyla.substack.com/archive",
                    }
 
     for key, value in urls.items():
@@ -77,55 +77,102 @@ def save_article_to_file():
             f.write(text_str)
     links.clear()
 
-    article = open('article.txt', "rt")
-    article_new = open("article_new.txt", "wt")
-    for line in article:
-        tags = soup1.find_all("li")
-        for content in tags:
-            nltk.download('punkt')
-            text = content.text
-            new_list = nltk.tokenize.sent_tokenize(text)
+    for key, value in urls.items():
+        if key == "Knower's substack":
+            bullet_points = []
+            article_file = open('article.txt', "r+")
+            article_new = open("article_new.txt", "w")
 
+            tags = soup1.find_all("li")
+            for content in tags:
+                # nltk.download('punkt')
+                text = content.text
+                string_to_list_items = nltk.tokenize.sent_tokenize(text)[0]
+                bullet_points.append(string_to_list_items)
 
-            # for each_item in new_list:
-            #     print(new_list[1])
-                # if each_item == new_list[0]:
-                #     article_new.write(each_item.replace(new_line, f". {new_line}. "))
-                # else:
-                #     article_new.write(
-                #         each_item.replace(new_line, f" {new_line}. "))
+            for article in article_file:
+                for line in bullet_points:
+                    line_new_2 = f" {line}."
+                    article = article.replace(line, line_new_2)
 
-        #     article.close()
-        #     article_new.close()
+                article_new.write(article)
 
 def save_summary():
     """Summarizing the article and saving to a file"""
-    file = 'article.txt'
+    file = 'article_new.txt'
     with open(file, 'r') as fx:
         text_to_sum = fx.read()
         file_sum = 'summary.txt'
         with open(file_sum, 'a+') as fs:
             sum = summarize(text_to_sum, 0.05)
             fs.write(sum)
+            fs.write("\n\n")
 
 
-
-
+# def knower():
+#     article = 'article.txt'
+#     with open(article, 'w') as f:
+#         f.truncate()
+#
+#     links = []
+#     urls = {
+#         "Knower's substack": 'https://theknower.substack.com/archive',
+#         "Wrong a lot": "https://wrongalot.substack.com/archive",
+#         "Kyla": "https://kyla.substack.com/archive",
+#     }
+#
+#     for key, value in urls.items():
+#         res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+#         res.raise_for_status()
+#         soup = bs4.BeautifulSoup(res.text, 'html.parser')
+#
+#         for article in soup.find_all('a'):
+#             link = article.get('href')
+#             links.append(link)
+#
+#     req1 = requests.get(links[9], headers={'User-Agent': 'Mozilla/5.0'})
+#     soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+#     html = soup1.find_all('p')
+#
+#     for text in html:
+#         article = 'article.txt'
+#         with open(article, 'a+') as f:
+#             text_str = str(text.text)
+#             f.write(text_str)
+#     links.clear()
+#
+#     bullet_points = []
+#     article_file = open('article.txt', "r")
+#     article_new = open("article_new.txt", "w")
+#
+#     tags = soup1.find_all("li")
+#     for content in tags:
+#         # nltk.download('punkt')
+#         text = content.text
+#         string_to_list_items = nltk.tokenize.sent_tokenize(text)[0]
+#         bullet_points.append(string_to_list_items)
+#
+#     print(bullet_points)
+#
+#     for article in article_file:
+#         for line in bullet_points:
+#             line_new_2 = f" {line}."
+#             article = article.replace(line, line_new_2)
+#
+#         article_new.write(article)
+#
+#     file = 'article_new.txt'
+#     with open(file, 'r') as fx:
+#         text_to_sum = fx.read()
+#         file_sum = 'summary.txt'
+#         with open(file_sum, 'a+') as fs:
+#             sum = summarize(text_to_sum, 0.05)
+#             fs.write(sum)
+#             fs.write("\n\n")
+#
+# knower()
 save_article_to_file()
-# save_summary()
+save_summary()
 
 
 
-# res1 = urllib.request.urlopen(links[9],
-#                              headers={'User-Agent': 'Mozilla/5.0'})
-# soup1 = bs4.BeautifulSoup(res1, 'html.parser')
-# # getting all the paragraphs
-# for para in soup1.find_all("p"):
-#     print(para.get_text())
-#
-# text_str = soup1.getText()
-# text_strip = text_str.strip()
-# text = soup1.find('p').text
-# # text_str = text.getText()
-# print(text)
-#
