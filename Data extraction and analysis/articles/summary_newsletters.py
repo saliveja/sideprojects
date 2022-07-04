@@ -1,57 +1,50 @@
+from newspaper import Article
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 from string import punctuation
-import string
-from spacy.lang.en.stop_words import STOP_WORDS
-from spacy.lang.en import English
 from heapq import nlargest
-from spacy.language import Language
 import feedparser
 import pdfkit
 import requests, bs4
+import nltk
 
-punctuations = string.punctuation
-nlp = English()
-nlp.add_pipe('sentencizer') # updated
-parser = English()
+# url = 'https://entrepreneurshandbook.co/number-three-511f334d8fae'
+# article = Article(url)
+# article.download()
+# article.parse()
 
-
-def pre_process(document):
-    clean_tokens = [token.lemma_.lower().strip() for token in document]
-    clean_tokens = [token for token in clean_tokens if
-                    token not in STOP_WORDS and token not in punctuations]
-    tokens = [token.text for token in document]
-    lower_case_tokens = list(map(str.lower, tokens))
-
-    return lower_case_tokens
-
-def generate_numbers_vector(tokens):
-    frequency = [tokens.count(token) for token in tokens]
-    token_dict = dict(list(zip(tokens,frequency)))
-    maximum_frequency=sorted(token_dict.values())[-1]
-    normalised_dict = {token_key:token_dict[token_key]/maximum_frequency for token_key in token_dict.keys()}
-    return normalised_dict
-
-def sentences_importance(text, normalised_dict):
-    importance ={}
-    for sentence in nlp(text).sents:
-        for token in sentence:
-            target_token = token.text.lower()
-            if target_token in normalised_dict.keys():
-                if sentence in importance.keys():
-                    importance[sentence]+=normalised_dict[target_token]
+def summarize(text, per):
+    nlp = spacy.load('en_core_web_sm')
+    doc= nlp(text)
+    tokens=[token.text for token in doc]
+    word_frequencies={}
+    for word in doc:
+        if word.text.lower() not in list(STOP_WORDS):
+            if word.text.lower() not in punctuation:
+                if word.text not in word_frequencies.keys():
+                    word_frequencies[word.text] = 1
                 else:
-                    importance[sentence]=normalised_dict[target_token]
-    return importance
-
-def generate_summary(rank, text):
-    target_document = parser(text)
-    importance = sentences_importance(text, generate_numbers_vector(pre_process(target_document)))
-    summary = nlargest(rank, importance, key=importance.get)
+                    word_frequencies[word.text] += 1
+    max_frequency=max(word_frequencies.values())
+    for word in word_frequencies.keys():
+        word_frequencies[word]=word_frequencies[word]/max_frequency
+    sentence_tokens= [sent for sent in doc.sents]
+    sentence_scores = {}
+    for sent in sentence_tokens:
+        for word in sent:
+            if word.text.lower() in word_frequencies.keys():
+                if sent not in sentence_scores.keys():
+                    sentence_scores[sent]=word_frequencies[word.text.lower()]
+                else:
+                    sentence_scores[sent]+=word_frequencies[word.text.lower()]
+    select_length=int(len(sentence_tokens)*per)
+    summary=nlargest(select_length, sentence_scores,key=sentence_scores.get)
+    final_summary=[word.text for word in summary]
+    summary=''.join(final_summary)
     return summary
 
 
-def knower():
+def save_article_to_file():
 
     article = 'article.txt'
     with open(article, 'w') as f:
@@ -82,42 +75,44 @@ def knower():
         with open(article, 'a+') as f:
             text_str = str(text.text)
             f.write(text_str)
+    links.clear()
 
+    article = open('article.txt', "rt")
+    article_new = open("article_new.txt", "wt")
+    for line in article:
+        tags = soup1.find_all("li")
+        for content in tags:
+            nltk.download('punkt')
+            text = content.text
+            new_list = nltk.tokenize.sent_tokenize(text)
+
+
+            # for each_item in new_list:
+            #     print(new_list[1])
+                # if each_item == new_list[0]:
+                #     article_new.write(each_item.replace(new_line, f". {new_line}. "))
+                # else:
+                #     article_new.write(
+                #         each_item.replace(new_line, f" {new_line}. "))
+
+        #     article.close()
+        #     article_new.close()
+
+def save_summary():
+    """Summarizing the article and saving to a file"""
     file = 'article.txt'
-    with open(file, 'r+') as fx:
-        file_sum = 'summary.txt'
+    with open(file, 'r') as fx:
         text_to_sum = fx.read()
+        file_sum = 'summary.txt'
         with open(file_sum, 'a+') as fs:
-            gen = generate_summary(3, text_to_sum)
-            gen_str = str(gen)
-            fs.write(gen_str)
-
-    # article = 'article.txt'
-    # with open(article, 'r+') as f:
-    #     f.read()
-    #     tags = soup1.find_all("li")
-    #     for text in f:
-    #         for content in tags:
-    #             lines = content.text
-    #             f.write(text.replace(lines, f"\n* {lines}"))
-    # links.clear()
+            sum = summarize(text_to_sum, 0.05)
+            fs.write(sum)
 
 
 
-knower()
 
-
-# file = 'article.txt'
-# with open(file, 'r') as fx:
-#     file_sum = 'summary.txt'
-#     text_to_sum = fx.read()
-#     with open(file_sum, 'a') as fs:
-#         gen = generate_summary(3, text_to_sum)
-#         gen_str = str(gen)
-#         fs.write(gen_str)
-
-
-
+save_article_to_file()
+# save_summary()
 
 
 
