@@ -44,7 +44,7 @@ def knower_sum():
     links = []
     article_to_sum = []
     urls = {
-        "Knower's substack": 'https://theknower.substack.com/archive',
+        "Knower's substack": "https://theknower.substack.com/archive",
             }
 
     for key, value in urls.items():
@@ -63,10 +63,32 @@ def knower_sum():
         for text in html:
             article = text.text
             article_to_sum.append(article)
-    article_str = ''.join(article_to_sum)
+    article_str = ' '.join(article_to_sum)
     sum = summarize(article_str, 0.05)
     print(sum)
     print("\n\n")
+
+def knower_download():
+    """Downloading latest Knower article."""
+
+    links = []
+    urls = {
+        "Knower's substack": 'https://theknower.substack.com/archive',
+            }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        for article in soup.find_all('a'):
+            links.append(article.get('href'))
+        address = links[9]
+
+        print(f"Creating PDF from address: {address}")
+        pdfkit.from_url(address, f'{key}.pdf')
+        # converting html to pdf and downloading
+        print(f"Created PDF successfully!")
 
 def wrong_a_lot_sum():
     """Summary of Wrong a lot's latest article."""
@@ -93,7 +115,7 @@ def wrong_a_lot_sum():
         for text in html:
             article = text.text
             article_to_sum.append(article)
-    article_str = ''.join(article_to_sum)
+    article_str = ' '.join(article_to_sum)
     sum = summarize(article_str, 0.05)
     print(sum)
     print("\n\n")
@@ -123,7 +145,7 @@ def kyla_sum():
         for text in html:
             article = text.text
             article_to_sum.append(article)
-    article_str = ''.join(article_to_sum)
+    article_str = ' '.join(article_to_sum)
     sum = summarize(article_str, 0.05)
     print(sum)
     print("\n\n")
@@ -132,8 +154,9 @@ def ansem_sum():
     """Summary of Ansem's latest article."""
 
     links = []
+    article_to_sum = []
     urls = {
-        "Ansem": "https://blknoiz06.substack.com/archive",
+            "Ansem": "https://blknoiz06.substack.com/archive",
             }
 
     for key, value in urls.items():
@@ -153,7 +176,7 @@ def ansem_sum():
             article = text.text
             article_to_sum.append(article)
 
-    article_str = ''.join(article_to_sum)
+    article_str = ' '.join(article_to_sum)
     sum = summarize(article_str, 0.05)
     print(sum)
     print("\n\n")
@@ -163,6 +186,7 @@ def cobie_sum():
     """Summary of Ansem's latest article."""
 
     links = []
+    article_to_sum = []
     urls = {
         "Cobie": "https://cobie.substack.com/archive",
     }
@@ -184,12 +208,12 @@ def cobie_sum():
             article = text.text
             article_to_sum.append(article)
 
-    article_str = ''.join(article_to_sum)
+    article_str = ' '.join(article_to_sum)
     sum = summarize(article_str, 0.05)
     print(sum)
     print("\n\n")
 
-def medium_sum():
+def scarpa_sum():
     """Summary of Scarpas's latest article."""
 
     urls = {
@@ -216,7 +240,7 @@ def medium_sum():
             article = text.text
             article_to_sum.append(article)
 
-    article_str = ''.join(article_to_sum)
+    article_str = ' '.join(article_to_sum)
     sum = summarize(article_str, 0.05)
     print(sum)
     print("\n\n")
@@ -248,162 +272,446 @@ def hayes_sum():
             article = text.text
             article_to_sum.append(article)
 
-    article_str = ''.join(article_to_sum)
+    article_str = ' '.join(article_to_sum)
     sum = summarize(article_str, 0.05)
     print(sum)
     print("\n\n")
-#
-# knower_sum()
-# wrong_a_lot_sum()
-# ansem_sum()
-# cobie_sum()
-# medium_sum()
-hayes_sum()
+
+def foo69_sum():
+    """Summary of Foo69's latest article."""
+
+    urls = {
+            "Foo69": "https://fooo69.medium.com/feed",
+            }
+
+    links = []
+    names = []
+    article_to_sum = []
+
+    for key, value in urls.items():
+        feed = feedparser.parse(value)
+        for entry in feed.entries:
+            link = entry.link
+            name = entry.title
+            links.append(link)
+            names.append(name)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def godcomplex182_sum():
+    """Summary of Godcomplex182's latest article."""
+
+    urls = {
+        "Godcomplex182": "https://medium.com/@godcomplex182/feed",
+            }
+
+    links = []
+    names = []
+    article_to_sum = []
+
+    for key, value in urls.items():
+        feed = feedparser.parse(value)
+        for entry in feed.entries:
+            link = entry.link
+            name = entry.title
+            links.append(link)
+            names.append(name)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def cryptocreddy_sum():
+    """Summary of Cryptocreddy's latest article."""
+
+    urls = {
+            "Cryptocreddy": "https://medium.com/@cryptocreddy/feed",
+            }
+
+    links = []
+    names = []
+    article_to_sum = []
+
+    for key, value in urls.items():
+        feed = feedparser.parse(value)
+        for entry in feed.entries:
+            link = entry.link
+            name = entry.title
+            links.append(link)
+            names.append(name)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def oxgodking_sum():
+    """Summary of Oxgodking's latest article."""
+
+    urls = {
+        "0xgodking": "https://medium.com/@0xgodking/feed",
+            }
+
+    links = []
+    names = []
+    article_to_sum = []
+
+    for key, value in urls.items():
+        feed = feedparser.parse(value)
+        for entry in feed.entries:
+            link = entry.link
+            name = entry.title
+            links.append(link)
+            names.append(name)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def onchainwizard_sum():
+    """Summary of Onchain wizard's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "Onchain Wizard Newsletter": "https://onchainwizard.substack.com/archive",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[8]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+    article_str = ' '.join(article_to_sum)
+    print(article_str)
+    sum = summarize(article_str, 0.5)
+    print(sum)
+    print("\n\n")
+
+def no_sleep_sum():
+    """Summary of No sleep's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "No Sleep": "https://nosleep.substack.com/archive",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[6]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def kyle_sum():
+    """Summary of Kyle's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "Kyle's Newsletter": "https://0xfren.substack.com/archive",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[6]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def ape_sum():
+    """Summary of Ape's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "The Reading Ape Newsletter": "https://thereadingape.substack.com/archive",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[10]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def nat_sum():
+    """Summary of Nat's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "Nat's Newsletter": "https://crypto.nateliason.com/",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[15]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def rain_and_coffee_sum():
+    """Summary of Rain and coffee's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "Rain And Coffee Newsletter":
+               "https://rainandcoffee.substack.com/archive",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[10]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def the_macro_compass_sum():
+    """Summary of Rain and coffee's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "The Macro Compass Newsletter":
+               "https://themacrocompass.substack.com/archive",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[10]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+def not_boring_sum():
+    """Summary of Not boring's latest article."""
+
+    links = []
+    article_to_sum = []
+    urls = {
+        "Not Boring Newsletter": "https://www.notboring.co/",
+    }
+
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
+        res.raise_for_status()
+        soup = bs4.BeautifulSoup(res.text, 'html.parser')
+
+        if (each_code := soup.find_all('a')[19]):
+            x = each_code.get('href')
+            links.append(x)
+
+    for link in links:
+        req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
+        soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
+        html = soup1.find_all('p')
+        for text in html:
+            article = text.text
+            article_to_sum.append(article)
+
+    article_str = ' '.join(article_to_sum)
+    sum = summarize(article_str, 0.05)
+    print(sum)
+    print("\n\n")
+
+dict = {
+"Knower's substack": "https://theknower.substack.com/archive",
+"Wrong a lot": "https://wrongalot.substack.com/archive",
+"Kyla": "https://kyla.substack.com/archive",
+"Ansem": "https://blknoiz06.substack.com/archive",
+"Cobie": "https://cobie.substack.com/archive",
+"Scarpa": "https://medium.com/@TraderScarpa/feed",
+"Hayes": "https://cryptohayes.medium.com/feed",
+"Foo69": "https://fooo69.medium.com/feed",
+"Godcomplex182": "https://medium.com/@godcomplex182/feed",
+"Cryptocreddy": "https://medium.com/@cryptocreddy/feed",
+"0xgodking": "https://medium.com/@0xgodking/feed",
+"Onchain Wizard Newsletter": "https://onchainwizard.substack.com/archive",
+"No Sleep": "https://nosleep.substack.com/archive",
+"Kyle's Newsletter": "https://0xfren.substack.com/archive",
+"The Reading Ape Newsletter": "https://thereadingape.substack.com/archive",
+"Nat's Newsletter": "https://crypto.nateliason.com/",
+"Rain And Coffee Newsletter": "https://rainandcoffee.substack.com/archive",
+"The Macro Compass Newsletter": "https://themacrocompass.substack.com/archive",
+"Not Boring Newsletter": "https://www.notboring.co/",
+}
 
 
+for i, item in enumerate(dict, 1):
+    print(i, '' + item.strip(), "\n")
+    # 'end' is what is happening before the number (i)
+    # 'sep' is what is happening after the number (i)
+    print("\n\n")
 
+try:
+    knower_sum()
+    wrong_a_lot_sum()
+    ansem_sum()
+    cobie_sum()
+    medium_sum()
+    hayes_sum()
+    foo69_sum()
+    godcomplex182_sum()
+    cryptocreddy_sum()
+    oxgodking_sum()
+    onchainwizard_sum()
+    no_sleep_sum()
+    kyle_sum()
+    ape_sum()
+    nat_sum()
+    rain_and_coffee_sum()
+    the_macro_compass_sum()
+    not_boring_sum()
 
-#
-#
-# ,
-#             'Foo69': 'https://fooo69.medium.com/feed',
-#             'Godcomplex182': 'https://medium.com/@godcomplex182/feed',
-#             'Cryptocreddy': 'https://medium.com/@cryptocreddy/feed',
-#             '0xgodking': 'https://medium.com/@0xgodking/feed',
-#
-#
-#
-#
+except ValueError:
+    pass
 
+select_download = input("With index number, select the article you "
+                        "would like to download:")
 
+if select_download == 1:
+    knower_download()
+else:
+    print("They are not existing yet.")
 
-
-
-
-
-
-
-
-# def save_summary():
-#     """Summarizing the article and saving to a file"""
-#     article_str = str(article_to_sum)
-#     sum = summarize(article_str, 0.05)
-#     print(sum)
-#
-#     # file = 'article.txt'
-#     # with open(file, 'r') as fx:
-#     #     text_to_sum = fx.read()
-#     #     file_sum = 'summary.txt'
-#     #     with open(file_sum, 'a+') as fs:
-#     #         sum = summarize(text_to_sum, 0.05)
-#     #         fs.write(sum)
-#     #         fs.write("\n\n")
-
-# def truncate():
-#     article = 'article.txt'
-#     with open(article, 'w') as f:
-#         f.truncate()
-
-
-# def knower():
-#     article = 'article.txt'
-#     with open(article, 'w') as f:
-#         f.truncate()
-#
-#     links = []
-#     urls = {
-#         "Knower's substack": 'https://theknower.substack.com/archive',
-#         "Wrong a lot": "https://wrongalot.substack.com/archive",
-#         "Kyla": "https://kyla.substack.com/archive",
-#     }
-#
-#     for key, value in urls.items():
-#         res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
-#         res.raise_for_status()
-#         soup = bs4.BeautifulSoup(res.text, 'html.parser')
-#
-#         for article in soup.find_all('a'):
-#             link = article.get('href')
-#             links.append(link)
-#
-#     req1 = requests.get(links[9], headers={'User-Agent': 'Mozilla/5.0'})
-#     soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
-#     html = soup1.find_all('p')
-#
-#     for text in html:
-#         article = 'article.txt'
-#         with open(article, 'a+') as f:
-#             text_str = str(text.text)
-#             f.write(text_str)
-#     links.clear()
-#
-#     bullet_points = []
-#     article_file = open('article.txt', "r")
-#     article_new = open("article_new.txt", "w")
-#
-#     tags = soup1.find_all("li")
-#     for content in tags:
-#         # nltk.download('punkt')
-#         text = content.text
-#         string_to_list_items = nltk.tokenize.sent_tokenize(text)[0]
-#         bullet_points.append(string_to_list_items)
-#
-#     print(bullet_points)
-#
-#     for article in article_file:
-#         for line in bullet_points:
-#             line_new_2 = f" {line}."
-#             article = article.replace(line, line_new_2)
-#
-#         article_new.write(article)
-#
-#     file = 'article_new.txt'
-#     with open(file, 'r') as fx:
-#         text_to_sum = fx.read()
-#         file_sum = 'summary.txt'
-#         with open(file_sum, 'a+') as fs:
-#             sum = summarize(text_to_sum, 0.05)
-#             fs.write(sum)
-#             fs.write("\n\n")
-#
-
-# "Wrong a lot": "https://wrongalot.substack.com/archive",
-# "Kyla": "https://kyla.substack.com/archive",
-
-
-# for text in html:
-#     article_file = 'article.txt'
-#     article = text.text
-#     article_str = str(article)
-#     with open(article_file, 'w+') as f:
-#             # text_str = str(text.text)
-#             f.write(article_str)
-
-#
-# article_file = open('article.txt', "r+")
-# article_new = open("article_new.txt", "w")
-#
-# req1 = requests.get(links[9], headers={'User-Agent': 'Mozilla/5.0'})
-# soup1 = bs4.BeautifulSoup(req1.text, 'html.parser')
-# html = soup1.find_all('p')
-#
-# bullet_points = []
-# tags = soup1.find_all("li")
-# for key, value in urls.items():
-#     res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
-#     res.raise_for_status()
-#     soup = bs4.BeautifulSoup(res.text, 'html.parser')
-#
-#     for content in tags:
-#         if tags in soup:
-#         # nltk.download('punkt')
-#             text = content.text
-#             string_to_list_items = nltk.tokenize.sent_tokenize(text)[0]
-#             bullet_points.append(string_to_list_items)
-#
-# for article in article_file:
-#     for line in bullet_points:
-#         line_new_2 = f" {line}."
-#         article = article.replace(line, line_new_2)
-#
-#     article_new.write(article)
