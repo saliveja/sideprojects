@@ -1,30 +1,4 @@
-# from newspaper import Article
-# import spacy
-# from spacy.lang.en.stop_words import STOP_WORDS
-# from string import punctuation
-# from heapq import nlargest
-# import feedparser
-# import requests, bs4
-# import summarize
-# import ansem as a
-# import ape
-# import cobie as c
-# import cryptocreddy as cr
-# import foo69 as f
-# import godcomplex182 as god
-# import hayes as h
-# import knower as k
-# import kyla
-# import kyle
-# import macro_compass as mc
-# import nat
-# import no_sleep as ns
-# import not_boring as nb
-# import onchain_wizard as ow
-# import oxgodking as ox
-# import rain_and_coffee as rc
-# import scarpa as s
-# import wrong_a_lot as w
+
 import summary
 import download as d
 
@@ -59,8 +33,47 @@ def article_summary():
             # 'sep' is what is happening after the number (i)
     print("\n")
 
-    name,sum = summary.summary("Knower","https://theknower.substack.com/archive", 9)
-    print(f"\n{name}:\n{sum}")
+    #     knower = soup.find_all('a')[9]
+    #     wrong = soup.find_all('a')[9]
+    #     Kyla = soup.find_all('a')[9]
+    #     cobie = soup.find_all('a')[5]
+    #     ansem = soup.find_all('a')[5]
+    #     owizard = soup.find_all('a')[8]
+    #     nosleep = soup.find_all('a')[6]
+    #     Kyle = soup.find_all('a')[6]
+    #     ape = soup.find_all('a')[10]
+    #     rain = soup.find_all('a')[10]
+    #     macro = soup.find_all('a')[10]
+    #     nat = soup.find_all('a')[15]
+    #     notboring = soup.find_all('a')[19]
+
+    #     scarpa = soup.find_all('a')[0]
+    #     hayes = soup.find_all('a')[0]
+    #     foo69 = soup.find_all('a')[0]
+    #     godcomplex182 = soup.find_all('a')[0]
+    #     cryptocreddy = soup.find_all('a')[0]
+    #     oxgodking = soup.find_all('a')[0]
+
+    index_9 = {
+        "Knower's substack": "https://theknower.substack.com/archive",
+        "Wrong a lot": "https://wrongalot.substack.com/archive",
+        "Kyla": "https://kyla.substack.com/archive",
+               }
+
+    index_5 = {
+        "Ansem": "https://blknoiz06.substack.com/archive",
+        "Cobie": "https://cobie.substack.com/archive",
+            }
+
+    for key, value in index_9.items():
+        name,sum = summary.summary(key, value, 9)
+        print(f"\n{name}:\n{sum}")
+    for key, value in index_9.items():
+        name,sum = summary.summary(key, value, 5)
+        print(f"\n{name}:\n{sum}")
+
+
+
 
 
 def download():
@@ -69,74 +82,21 @@ def download():
     d.article_download( "Knower's substack",
                                "https://theknower.substack.com/archive", 9)
 
-# articles = [
-#         k.knower_download(),
-#         w.wrong_download(),
-#         a.ansem_download(),
-#         c.cobie_download(),
-#         s.scarpa_download(),
-#         h.hayes_download(),
-#         f.foo69_download(),
-#         god.godcomplex182_download(),
-#         cr.cryptocreddy_download(),
-#         ox.oxgodking_download(),
-#         ow.onchainWizard_download(),
-#         ns.noSleep_download(),
-#         kyle.kyle_download(),
+while True:
+    index = int(input("With index number, select the article you "
+                                   "would like to download: "))
+    for k, v in dict.items():
+            for index in articles:
+                if index == k:
+                    n[k] = v
+        answer_to_question = \
+            input("Do you want to download another article? y/n ")
+        if answer_to_question == 'n':
+            print("enjoy")
+            quit()
+        else:
+            continue
 
-    #     nat.nat_download(),
-    #     rc.rainCoffee_download(),
-    #     mc.macroCompass_download(),
-    #     nb.notBoring_download(),
-    #     kyla.kyla_download(),
-    # ]
-
-
-# while True:
-#     index = int(input("With index number, select the article you "
-#                                    "would like to download: "))
-#     for k, v in dict.items():
-#             for index in articles:
-#                 if index == k:
-#                     n[k] = v
-#         answer_to_question = \
-#             input("Do you want to download another article? y/n ")
-#         if answer_to_question == 'n':
-#             print("enjoy")
-#             quit()
-#         else:
-#             continue
-#
-
-
-
-
-
-
-    #     if select_article == "1":
-    #         k.knower_download()
-    #         answer_to_question = "Do you want to download another article? y/n "
-    #         if answer_to_question == 'n':
-    #             print("enjoy")
-    #             quit()
-    #         else:
-    #             download()
-    #     elif select_article == "2":
-    #         w.wrong_download()
-    #         answer_to_question = "Do you want to download another article? y/n "
-    #         if answer_to_question == 'n':
-    #             print("enjoy")
-    #             quit()
-    #         else:
-    #             download()
-    #     elif select_article == "3":
-    #         w.wrong_download()
-    #         answer_to_question = "Do you want to download another article? y/n "
-    #         if answer_to_question == 'n':
-    #             print("enjoy")
-    #             quit()
-    #         else:
-    #             download()
 
 article_summary()
 # download()
