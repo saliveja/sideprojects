@@ -11,7 +11,7 @@ def summary(name, link, index):
     #     "Wrong a lot": "https://wrongalot.substack.com/archive",
     #         }
 
-    res = requests.get(index, headers={'User-Agent': 'Mozilla/5.0'})
+    res = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
     res.raise_for_status()
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
 
@@ -29,5 +29,4 @@ def summary(name, link, index):
         article_to_sum.append(article)
     article_str = ' '.join(article_to_sum)
     sum = summarize.summarize(article_str, 0.05)
-    print(name)
-    return sum
+    return name, sum

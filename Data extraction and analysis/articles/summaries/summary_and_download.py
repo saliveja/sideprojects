@@ -28,70 +28,46 @@
 import summary
 import download as d
 
-
 def article_summary():
     """Printing a list of articles and the summary of each."""
 
-dict = {
-    "Knower's substack": "https://theknower.substack.com/archive",
-    "Wrong a lot": "https://wrongalot.substack.com/archive",
-    "Kyla": "https://kyla.substack.com/archive",
-    "Ansem": "https://blknoiz06.substack.com/archive",
-    "Cobie": "https://cobie.substack.com/archive",
-    "Scarpa": "https://medium.com/@TraderScarpa/feed",
-    "Hayes": "https://cryptohayes.medium.com/feed",
-    "Foo69": "https://fooo69.medium.com/feed",
-    "Godcomplex182": "https://medium.com/@godcomplex182/feed",
-    "Cryptocreddy": "https://medium.com/@cryptocreddy/feed",
-    "0xgodking": "https://medium.com/@0xgodking/feed",
-    "Onchain Wizard Newsletter": "https://onchainwizard.substack.com/archive",
-    "No Sleep": "https://nosleep.substack.com/archive",
-    "Kyle's Newsletter": "https://0xfren.substack.com/archive",
-    "The Reading Ape Newsletter": "https://thereadingape.substack.com/archive",
-    "Nat's Newsletter": "https://crypto.nateliason.com/",
-    "Rain And Coffee Newsletter": "https://rainandcoffee.substack.com/archive",
-    "The Macro Compass Newsletter": "https://themacrocompass.substack.com/archive",
-    "Not Boring Newsletter": "https://www.notboring.co/",
-        }
+    dict = {
+        "Knower's substack": "https://theknower.substack.com/archive",
+        "Wrong a lot": "https://wrongalot.substack.com/archive",
+        "Kyla": "https://kyla.substack.com/archive",
+        "Ansem": "https://blknoiz06.substack.com/archive",
+        "Cobie": "https://cobie.substack.com/archive",
+        "Scarpa": "https://medium.com/@TraderScarpa/feed",
+        "Hayes": "https://cryptohayes.medium.com/feed",
+        "Foo69": "https://fooo69.medium.com/feed",
+        "Godcomplex182": "https://medium.com/@godcomplex182/feed",
+        "Cryptocreddy": "https://medium.com/@cryptocreddy/feed",
+        "0xgodking": "https://medium.com/@0xgodking/feed",
+        "Onchain Wizard Newsletter": "https://onchainwizard.substack.com/archive",
+        "No Sleep": "https://nosleep.substack.com/archive",
+        "Kyle's Newsletter": "https://0xfren.substack.com/archive",
+        "The Reading Ape Newsletter": "https://thereadingape.substack.com/archive",
+        "Nat's Newsletter": "https://crypto.nateliason.com/",
+        "Rain And Coffee Newsletter": "https://rainandcoffee.substack.com/archive",
+        "The Macro Compass Newsletter": "https://themacrocompass.substack.com/archive",
+        "Not Boring Newsletter": "https://www.notboring.co/",
+            }
 
+    for i, item in enumerate(dict, 1):
+        print(f"{i} - {item.strip()}")
+            # 'end' is what is happening before the number (i)
+            # 'sep' is what is happening after the number (i)
+    print("\n")
 
-for i, item in enumerate(dict, 1):
-    print(i, '' + item.strip(), "\n")
-        # 'end' is what is happening before the number (i)
-        # 'sep' is what is happening after the number (i)
-print("\n\n")
-
-summary.summary("Knower","https://theknower.substack.com/archive", 1)
-
-
-#         k.knower_sum(),
-# w.wrong_a_lot_sum(),
-#         a.ansem_sum(),
-#         c.cobie_sum(),
-#         s.scarpa_sum(),
-#         h.hayes_sum(),
-#         f.foo69_sum(),
-#         god.godcomplex182_sum(),
-#         cr.cryptocreddy_sum(),
-#         ox.oxgodking_sum(),
-#         ow.onchainwizard_sum(),
-#         ns.noSleep_sum(),
-#         kyle.kyle_sum(),
-#         ape.ape_sum(),
-#         nat.nat_sum(),
-#         rc.rainCoffee_sum(),
-#         mc.macroCompass_sum(),
-#         nb.notNoring_sum(),
-#         kyla.kyla_sum(),
-#     ]
-#
+    name,sum = summary.summary("Knower","https://theknower.substack.com/archive", 9)
+    print(f"\n{name}:\n{sum}")
 
 
 def download():
     """Selecting articles and downloading."""
 
-d.article_download( "Knower's substack",
-                           "https://theknower.substack.com/archive", 9)
+    d.article_download( "Knower's substack",
+                               "https://theknower.substack.com/archive", 9)
 
 # articles = [
 #         k.knower_download(),
@@ -162,8 +138,8 @@ d.article_download( "Knower's substack",
     #         else:
     #             download()
 
-# article_summary()
-download()
+article_summary()
+# download()
 
 
 # def print_letter(letter):
