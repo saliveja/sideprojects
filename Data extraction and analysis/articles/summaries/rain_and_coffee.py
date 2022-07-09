@@ -43,12 +43,12 @@ def rainCoffee_sum():
 def rainCoffee_download():
     """Downloading 'Rain and Coffee's newsletter."""
     links = []
-    url = {"Rain And Coffee Newsletter":
+    urls = {"Rain And Coffee Newsletter":
                "https://rainandcoffee.substack.com/archive",
            }
 
-    for key, value in url.items():
-        res = requests.get(url[key], headers={'User-Agent': 'Mozilla/5.0'})
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
         res.raise_for_status()
         soup = bs4.BeautifulSoup(res.text, 'html.parser')
 

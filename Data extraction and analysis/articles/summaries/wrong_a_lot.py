@@ -35,8 +35,7 @@ def wrong_a_lot_sum():
             article_to_sum.append(article)
     article_str = ' '.join(article_to_sum)
     sum = summarize.summarize(article_str, 0.05)
-    print(sum)
-    print("\n\n")
+    return sum
 
 def wrong_download():
     """Downloading the latest article from 'Wrong a lot'."""

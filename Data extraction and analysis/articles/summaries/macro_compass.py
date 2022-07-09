@@ -5,7 +5,8 @@ import pdfkit
 
 def macroCompass_sum():
     links = []
-    url = {
+    article_to_sum = []
+    urls = {
         "The Macro Compass Newsletter":
                "https://themacrocompass.substack.com/archive",
            }
@@ -35,12 +36,12 @@ def macroCompass_sum():
 def macroCompass_download():
     """Downloading 'Macro Compass' newsletter."""
     links = []
-    url = {"Rain And Coffee Newsletter":
-               "https://rainandcoffee.substack.com/archive",
+    urls = {"The Macro Compass Newsletter":
+               "https://themacrocompass.substack.com/archive",
            }
 
-    for key, value in url.items():
-        res = requests.get(url[key], headers={'User-Agent': 'Mozilla/5.0'})
+    for key, value in urls.items():
+        res = requests.get(urls[key], headers={'User-Agent': 'Mozilla/5.0'})
         res.raise_for_status()
         soup = bs4.BeautifulSoup(res.text, 'html.parser')
 

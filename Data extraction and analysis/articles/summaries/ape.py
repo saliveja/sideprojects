@@ -25,6 +25,7 @@ def ape_sum():
         if (each_code := soup.find_all('a')[10]):
             x = each_code.get('href')
             links.append(x)
+    print(links)
 
     for link in links:
         req1 = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
@@ -62,3 +63,8 @@ def ape_download():
         # converting html to pdf and downloading
         print(f"Created PDF successfully!")
         links.clear()
+
+ape_sum()
+
+
+
