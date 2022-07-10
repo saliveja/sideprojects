@@ -47,6 +47,9 @@ def article_summary():
     for item, ln_ix in dict.items():
         for link, index in ln_ix.items():
             name,sum, address = summary.summary(item, link, index)
+            if link.endswith('feed'):
+                name, sum, address =
+
         print(f"\n{name}:\n{sum}")
         print(address)
 
