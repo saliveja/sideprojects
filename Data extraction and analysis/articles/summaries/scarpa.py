@@ -37,8 +37,7 @@ def scarpa_sum():
 
     article_str = ' '.join(article_to_sum)
     sum = summarize.summarize(article_str, 0.05)
-    print(sum)
-    print("\n\n")
+    return sum
 
 def scarpa_download():
     """Downloading 'Scarpa's latest article."""
@@ -62,3 +61,5 @@ def scarpa_download():
         print(f"Created PDF {names[0]} successfully!")
         links.clear()
         names.clear()
+
+scarpa_sum()

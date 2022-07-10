@@ -4,12 +4,8 @@ import summarize
 
 def summary(name, link, index):
     """Summary of chosen articles."""
-    #
-    # links = []
+
     article_to_sum = []
-    # urls = {
-    #     "Wrong a lot": "https://wrongalot.substack.com/archive",
-    #         }
 
     res = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
     res.raise_for_status()
@@ -29,4 +25,4 @@ def summary(name, link, index):
         article_to_sum.append(article)
     article_str = ' '.join(article_to_sum)
     sum = summarize.summarize(article_str, 0.05)
-    return name, sum
+    return name, sum, address
