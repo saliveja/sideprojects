@@ -39,20 +39,18 @@ def article_summary():
 
     dict = dictionary()
 
-    for item, ln_ix in dict.items():
+    for i, (item, ln_ix) in enumerate(dict.items()):
         for link, index in ln_ix.items():
             if link.endswith('feed'):
                 name, sum, address = sm.sum_medium(item, link, index)
             else:
                 name, sum, address = summary.summary(item, link, index)
-        print(f"\n{name}:\n{sum}")
+        print(f"\n{i+1} - {name}:\n{sum}")
         print(address)
 
     print("\n")
     for i, item in enumerate(dict, 1):
         print(f"{i} - {item.strip()}")
-            # 'end' is what is happening before the number (i)
-            # 'sep' is what is happening after the number (i)
     print("\n")
 
 
