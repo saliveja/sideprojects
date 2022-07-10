@@ -1,5 +1,7 @@
 import summary
 import download as d
+import summary_medium as sm
+import download_medium as dm
 
 
 def dictionary():
@@ -10,12 +12,12 @@ def dictionary():
         "Kyla": {"https://kyla.substack.com/archive": 9},
         "Ansem": {"https://blknoiz06.substack.com/archive": 5},
         "Cobie": {"https://cobie.substack.com/archive": 5},
-        # "Scarpa": {"https://medium.com/@TraderScarpa/feed": 0},
-        # "Hayes": {"https://cryptohayes.medium.com/feed": 0},
-        # "Foo69": {"https://fooo69.medium.com/feed": 0},
-        # "Godcomplex182": {"https://medium.com/@godcomplex182/feed": 0},
-        # "Cryptocreddy": {"https://medium.com/@cryptocreddy/feed": 0},
-        # "0xgodking": {"https://medium.com/@0xgodking/feed": 0},
+        "Scarpa": {"https://medium.com/@TraderScarpa/feed": 0},
+        "Hayes": {"https://cryptohayes.medium.com/feed": 0},
+        "Foo69": {"https://fooo69.medium.com/feed": 0},
+        "Godcomplex182": {"https://medium.com/@godcomplex182/feed": 0},
+        "Cryptocreddy": {"https://medium.com/@cryptocreddy/feed": 0},
+        "0xgodking": {"https://medium.com/@0xgodking/feed": 0},
         "Onchain Wizard Newsletter": {
             "https://onchainwizard.substack.com/archive": 8},
         "No Sleep": {"https://nosleep.substack.com/archive": 6},
@@ -46,10 +48,10 @@ def article_summary():
 
     for item, ln_ix in dict.items():
         for link, index in ln_ix.items():
-            name,sum, address = summary.summary(item, link, index)
             if link.endswith('feed'):
-                name, sum, address =
-
+                name, sum, address = sm.sum_medium(item, link, index)
+            else:
+                name, sum, address = summary.summary(item, link, index)
         print(f"\n{name}:\n{sum}")
         print(address)
 
@@ -66,7 +68,7 @@ def download():
             dc = {key: value}
             l_dict.append(dc)
 
-        select = int(input("With index number, select the article you "
+        select = int(input("\nWith index number, select the article you "
                                         "would like to download: "))
         item = l_dict[select - 1]
 
@@ -75,8 +77,10 @@ def download():
             for url, ix in value.items():
                 link = str(url)
                 index = ix
-
-        d.article_download(name, link, index)
+                if url.endswith('feed'):
+                    dm.download_medium(name, link, index)
+                else:
+                    d.article_download(name, link, index)
 
         answer_to_question = \
             input("Do you want to download another article? y/n ")
