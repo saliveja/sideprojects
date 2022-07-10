@@ -39,13 +39,6 @@ def article_summary():
 
     dict = dictionary()
 
-    for i, item in enumerate(dict, 1):
-        print(f"{i} - {item.strip()}")
-            # 'end' is what is happening before the number (i)
-            # 'sep' is what is happening after the number (i)
-    print("\n")
-
-
     for item, ln_ix in dict.items():
         for link, index in ln_ix.items():
             if link.endswith('feed'):
@@ -54,6 +47,13 @@ def article_summary():
                 name, sum, address = summary.summary(item, link, index)
         print(f"\n{name}:\n{sum}")
         print(address)
+
+    print("\n")
+    for i, item in enumerate(dict, 1):
+        print(f"{i} - {item.strip()}")
+            # 'end' is what is happening before the number (i)
+            # 'sep' is what is happening after the number (i)
+    print("\n")
 
 
 def download():

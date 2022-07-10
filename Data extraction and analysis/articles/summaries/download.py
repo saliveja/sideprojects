@@ -1,4 +1,3 @@
-import feedparser
 import pdfkit
 import requests, bs4
 
