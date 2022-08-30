@@ -1,7 +1,7 @@
 import pdfkit
 import requests, bs4
 
-def article_download(name, link, index):
+def article_download(name, link, link_index):
     """Downloading the latest article."""
 
     res = requests.get(link, headers={'User-Agent': 'Mozilla/5.0'})
@@ -12,7 +12,7 @@ def article_download(name, link, index):
     for article in soup.find_all('a'):
         links.append(article.get('href'))
 
-    address = links[index]
+    address = links[link_index]
 
     print(f"Creating PDF from address: {address}")
     pdfkit.from_url(address, f'{name}.pdf')

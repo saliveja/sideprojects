@@ -1,7 +1,7 @@
 import feedparser
 import pdfkit
 
-def download_medium(name, link, index):
+def download_medium(name, link, link_index):
     """Downloading the latest Medium article."""
 
     links = []
@@ -12,7 +12,7 @@ def download_medium(name, link, index):
         link_selection = entry.link
         links.append(link_selection)
 
-    address = links[index]
+    address = links[link_index]
 
     print(f"Creating PDF from address: {address}")
     pdfkit.from_url(address, f"{name}.pdf")
